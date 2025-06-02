@@ -23,3 +23,35 @@ $ pio run --target upload
 # Clean build files
 $ pio run --target clean
 ```
+
+## Usage example (Fibonacci sequence)
+
+```shell
+$ pyserial-miniterm /dev/ttyACM0
+--- Miniterm on /dev/ttyACM0  9600,8,N,1 ---
+--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H ---
+> function fib(n) if n <= 0 then return 0 elseif n == 1 then return 1 else local a, b = 0, 1; for i = 2, n do a, b = b, a + b; print(b) end end end
+> fib(22)
+1
+2
+3
+5
+8
+13
+21
+34
+55
+89
+144
+233
+377
+610
+987
+1597
+2584
+4181
+6765
+10946
+17711
+> 
+```
