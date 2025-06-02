@@ -1,6 +1,6 @@
 # Arduino Lua Interpreter
 
-A basic example of an embedded Lua interpreter within the Arduino framework.
+A basic example of an embedded Lua interpreter within the Arduino framework
 
 ## Overview
 
