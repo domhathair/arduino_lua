@@ -24,7 +24,7 @@ $ pio run --target upload
 $ pio run --target clean
 ```
 
-## Usage example (Fibonacci sequence)
+## Usage example (Fibonacci sequence and custom function)
 
 ```shell
 $ pyserial-miniterm /dev/ttyACM0
@@ -53,5 +53,6 @@ $ pyserial-miniterm /dev/ttyACM0
 6765
 10946
 17711
-> 
+> print(hw.whoami())
+Raspberry Pi Pico interpreter: Lua 5.4.7
 ```

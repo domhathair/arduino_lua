@@ -22,7 +22,37 @@
 
 lua_State *L;
 
-void setup() {
+/**
+ * Prints board name
+ **/
+static int lua_whoami(lua_State *L) {
+    lua_pushstring(L, "Raspberry Pi Pico interpreter: " LUA_RELEASE);
+
+    return 1;
+}
+
+/**
+ * Custom reboot function
+ **/
+static int lua_reboot(lua_State *) {
+    volatile uint32_t *AIRCR = (volatile uint32_t *)0xE000ED0C;
+    *AIRCR = 0x5FA0004;
+
+    return 0;
+}
+
+static const struct luaL_Reg lua_hw[] = {
+    /* Register your own functions here */
+    {"whoami", lua_whoami}, /* \n */
+    {"reboot", lua_reboot}, /* \n */
+    {NULL, NULL}};
+
+static int luaopen_hw(lua_State *L) {
+    luaL_newlib(L, lua_hw);
+    return 1;
+}
+
+extern void setup() {
     Serial.begin(UART_BAUD);
 
     L = luaL_newstate();
@@ -30,12 +60,15 @@ void setup() {
         while (true);
     luaL_openlibs(L);
 
+    luaL_requiref(L, "hw", luaopen_hw, 1);
+    lua_pop(L, 1);
+
     Serial.print(LUA_COPYRIGHT "\r\n" LUA_PROMPT);
 }
 
-void atLoopExit(void *) { digitalWrite(LED_BUILTIN, LOW); }
+static void atLoopExit(void *) { digitalWrite(LED_BUILTIN, LOW); }
 
-void loop() {
+extern void loop() {
     static struct fat {
         size_t len;
         char buf[UART_SIZE + 1];
